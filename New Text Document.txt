@@ -1,0 +1,34 @@
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
+
+public class DropdownHelper {
+
+    public static void selectFromDropdown(WebDriver driver, By dropdownLocator, 
+	String value, String method) {
+        WebElement dropdown = driver.findElement(dropdownLocator);
+        Select select = new Select(dropdown);
+
+        if (method.equalsIgnoreCase("value")) {
+            select.selectByValue(value);
+        } else if (method.equalsIgnoreCase("index")) {
+            int index = Integer.parseInt(value);
+            select.selectByIndex(index);
+        } else if (method.equalsIgnoreCase("text")) {
+            select.selectByVisibleText(value);
+        } else {
+            throw new IllegalArgumentException("Unsupported selection method: " + method);
+        }
+    }
+
+    public static void main(String[] args) {
+        WebDriver driver;  // Initialize your WebDriver instance
+        By dropdownLocator = By.id("yourDropdownId");  // Replace with the actual locator
+
+        // Example usage:
+        selectFromDropdown(driver, dropdownLocator, "optionValue", "value");
+        selectFromDropdown(driver, dropdownLocator, "2", "index");
+        selectFromDropdown(driver, dropdownLocator, "Option Text", "text");
+    }
+}
